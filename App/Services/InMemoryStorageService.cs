@@ -42,8 +42,10 @@ namespace App.Services
         {
             if (articles.Any(a => a.ID == article.ID))
                 return false;
-            articles.Add(new Article() 
-            { 
+            if (article.ID == null)
+                article.ID = (articles.Max(a => a.ID) + 1) ?? 1;
+            articles.Add(new Article()
+            {
                 ID = article.ID,
                 Title = article.Title,
                 Content = article.Content,
@@ -56,7 +58,7 @@ namespace App.Services
         {
             int count = 0;
             var res = Filter(articles, selection);
-            foreach (var a in res) 
+            foreach (var a in res)
             {
                 bool changed = false;
                 if (value.Title != null && value.Title != a.Title)
@@ -64,7 +66,7 @@ namespace App.Services
                     a.Title = value.Title;
                     changed = true;
                 }
-                if (value.Content != null && value.Content != a.Content) 
+                if (value.Content != null && value.Content != a.Content)
                 {
                     a.Content = value.Content;
                     changed = true;
@@ -91,16 +93,16 @@ namespace App.Services
             foreach (var a in res)
                 if (articles.Remove(a))
                     count++;
-            return count;
+            return count; 
         }
         private static IEnumerable<Article> Filter(IEnumerable<Article> articles, Article article) 
         {
-            return articles.Where(a => 
-                (article.ID ??          a.ID)           == a.ID &&
-                (article.Title ??       a.Title)        == a.Title &&
-                (article.Content ??     a.Content)      == a.Content &&
-                (article.Author ??      a.Author)       == a.Author &&
-                (article.IsPublished ?? a.IsPublished)  == a.IsPublished
+            return articles.Where(a =>
+                (article.ID ?? a.ID) == a.ID &&
+                (article.Title ?? a.Title) == a.Title &&
+                (article.Content ?? a.Content) == a.Content &&
+                (article.Author ?? a.Author) == a.Author &&
+                (article.IsPublished ?? a.IsPublished) == a.IsPublished
             );
         }
     }

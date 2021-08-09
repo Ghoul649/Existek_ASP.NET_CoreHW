@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace App.Interfaces
 {
-    public interface IArticleFilterService
+    public interface IPublishingService
     {
-        IEnumerable<Article> Filter(IEnumerable<Article> articles);
+        void Publish(Article a);
     }
 }

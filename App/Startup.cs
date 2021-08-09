@@ -29,6 +29,9 @@ namespace App
         {
             services.AddControllers();
             services.AddSingleton<IStorageService>(new InMemoryStorageService());
+            services.AddSingleton<IArticleHandlerService>(new ToHTMLHandler());
+            services.AddSingleton<IVerifyingService>(new ContentLengthVerificator());
+            services.AddSingleton<IPublishingService,Publisher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
