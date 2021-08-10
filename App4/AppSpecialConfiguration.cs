@@ -8,14 +8,14 @@ namespace App4
     public class AppSpecialConfiguration : ICloneable
     {
         public string InnerKey1 { get; set; }
-        public string Innerkey2 { get; set; }
+        public string InnerKey2 { get; set; }
 
         public object Clone()
         {
             return new AppSpecialConfiguration()
             {
                 InnerKey1 = InnerKey1,
-                Innerkey2 = Innerkey2
+                InnerKey2 = InnerKey2
             };
         }
     }
