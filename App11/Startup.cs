@@ -1,3 +1,4 @@
+using App11.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -19,6 +20,7 @@ namespace App11
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ProhibitedValuesValidator.Load(configuration.GetSection("ProhibitedValuesValidator"));
         }
 
         public IConfiguration Configuration { get; }

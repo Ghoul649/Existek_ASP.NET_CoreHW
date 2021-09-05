@@ -13,9 +13,7 @@ namespace App11.Controllers
         public IActionResult ValidateUser([FromBody]User user) 
         {
             if (!ModelState.IsValid)
-            {
                 return ValidationProblem();
-            }
             return Ok();
         }
     }
