@@ -8,6 +8,5 @@ namespace App12.Models
 {
     public class User : IdentityUser<int>
     {
-        public string UserName { get; set; }
     }
 }

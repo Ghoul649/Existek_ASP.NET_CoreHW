@@ -33,7 +33,17 @@ namespace App12
             {
                 options.UseSqlServer(str);
             });
-            services.AddIdentity<User, IdentityRole<int>>()
+            services.AddIdentity<User, IdentityRole<int>>(options => 
+            {
+                options.Password = new PasswordOptions()
+                {
+                    RequireDigit = false,
+                    RequiredLength = 6,
+                    RequireLowercase = false,
+                    RequireUppercase = false,
+                    RequireNonAlphanumeric = false
+                };
+            })
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
             services.AddControllers();
         }
@@ -50,6 +60,7 @@ namespace App12
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
