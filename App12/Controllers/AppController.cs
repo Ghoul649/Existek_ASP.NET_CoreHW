@@ -11,7 +11,7 @@ namespace App12.Controllers
     public class AppController : Controller
     {
         [Route("test")]
-        
+        [Authorize]
         public IActionResult Test() 
         {
             return Ok();
