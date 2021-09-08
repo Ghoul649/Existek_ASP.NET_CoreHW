@@ -33,7 +33,7 @@ namespace App12
             {
                 options.UseSqlServer(str);
             });
-            services.AddIdentity<User, IdentityRole<int>>(options => 
+            services.AddIdentity<User, IdentityRole<int>>(options =>
             {
                 options.Password = new PasswordOptions()
                 {
@@ -45,6 +45,15 @@ namespace App12
                 };
             })
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
+            services.ConfigureApplicationCookie(options => 
+            {
+                options.Events.OnRedirectToLogin = ctx => 
+                {
+                    ctx.Response.StatusCode = 401;
+                    return Task.CompletedTask; 
+                };
+            });
+
             services.AddControllers();
         }
 
