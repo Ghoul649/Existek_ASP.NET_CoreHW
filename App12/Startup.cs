@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace App12
@@ -54,7 +55,13 @@ namespace App12
                 };
             });
 
-            services.AddControllers();
+            
+            services.AddControllers()
+                .AddJsonOptions(opts =>
+                {
+                    var enumConverter = new JsonStringEnumConverter();
+                    opts.JsonSerializerOptions.Converters.Add(enumConverter);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
