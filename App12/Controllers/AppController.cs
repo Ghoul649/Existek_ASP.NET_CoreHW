@@ -12,6 +12,7 @@ namespace App12.Controllers
     {
         [Route("test")]
         [Authorize]
+        [HttpGet]
         public IActionResult Test() 
         {
             return Ok();

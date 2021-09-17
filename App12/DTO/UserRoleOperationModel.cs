@@ -18,6 +18,6 @@ namespace App12.DTO
         [Required]
         public UserRoleOperation Operation { get; set; }
         [Required]
-        public string RoleName { get; set; }
+        public List<string> RoleNames { get; set; } = new List<string>();
     }
 }

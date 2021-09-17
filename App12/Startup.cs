@@ -1,3 +1,5 @@
+using App12.Authentification;
+using App12.Middleware;
 using App12.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +32,9 @@ namespace App12
         public void ConfigureServices(IServiceCollection services)
         {
             var str = Configuration.GetConnectionString("AppDB");
+
+            services.AddSingleton<UserUpdateManager<int>>();
+
             services.AddDbContext<AppIdentityDbContext>(options => 
             {
                 options.UseSqlServer(str);
@@ -44,7 +49,9 @@ namespace App12
                     RequireUppercase = false,
                     RequireNonAlphanumeric = false
                 };
+
             })
+                .AddUserManager<CustomUserManager>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
             services.ConfigureApplicationCookie(options => 
             {
@@ -78,6 +85,7 @@ namespace App12
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware(typeof(UpdateTicketMiddleware));
 
             app.UseEndpoints(endpoints =>
             {
