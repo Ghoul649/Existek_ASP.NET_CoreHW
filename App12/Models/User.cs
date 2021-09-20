@@ -8,5 +8,7 @@ namespace App12.Models
 {
     public class User : IdentityUser<int>
     {
+        public DateTime RegistrationDate { get; set; }
+        public bool IsCool { get; set; }
     }
 }

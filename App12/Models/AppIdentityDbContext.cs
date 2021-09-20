@@ -13,7 +13,7 @@ namespace App12.Models
     {
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            var res = Database.EnsureCreated();
         }
         public static async Task CheckBaseRoles(RoleManager<IdentityRole<int>> roleManager, ILogger logger)
         {

@@ -1,5 +1,4 @@
-﻿using App12.Authentification;
-using App12.DTO;
+﻿using App12.DTO;
 using App12.Filters;
 using App12.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +27,7 @@ namespace App12.Controllers
         {
             if (!ModelState.IsValid)
                 return ValidationProblem();
-            var user = new User() { UserName = regInfo.UserName, Email = regInfo.Email };
+            var user = new User() { UserName = regInfo.UserName, Email = regInfo.Email, RegistrationDate = DateTime.Now };
             var newIdentity = await UserManager.CreateAsync(user, regInfo.Password);
             if (!newIdentity.Succeeded)
             {
@@ -42,7 +41,7 @@ namespace App12.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginInfo, [FromServices] UserUpdateManager<int> _manager)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginInfo)
         {
             if (!ModelState.IsValid)
                 return ValidationProblem();
@@ -52,15 +51,13 @@ namespace App12.Controllers
                 ModelState.AddModelError("Login", "Wrong username or password.");
                 return ValidationProblem();
             }
-            var user = await SignInManager.UserManager.FindByNameAsync(loginInfo.UserName);
-            _manager.Update(user.Id);
             return Ok();
         }
 
         [HttpPost]
         [Route("roleOperation")]
         [Authorize(Roles = "Admin")]
-        //[TypeFilter(typeof(RoleFilter), Arguments = new object[]{ "Admin" })]
+        [TypeFilter(typeof(RoleFilter), Arguments = new object[]{ "Admin" })]
         public async Task<IActionResult> RoleOperation([FromBody] UserRoleOperationModel operation, [FromServices] RoleManager<IdentityRole<int>> rm) 
         {
             //var currentUser = await UserManager.GetUserAsync(User);

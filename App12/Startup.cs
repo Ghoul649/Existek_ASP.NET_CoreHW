@@ -1,6 +1,6 @@
-using App12.Authentification;
-using App12.Middleware;
 using App12.Models;
+using App12.Policy;
+using App12.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,8 +32,7 @@ namespace App12
         public void ConfigureServices(IServiceCollection services)
         {
             var str = Configuration.GetConnectionString("AppDB");
-
-            services.AddSingleton<UserUpdateManager<int>>();
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
 
             services.AddDbContext<AppIdentityDbContext>(options => 
             {
@@ -51,7 +50,6 @@ namespace App12
                 };
 
             })
-                .AddUserManager<CustomUserManager>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
             services.ConfigureApplicationCookie(options => 
             {
@@ -60,6 +58,10 @@ namespace App12
                     ctx.Response.StatusCode = 401;
                     return Task.CompletedTask; 
                 };
+            });
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy();
             });
 
             
@@ -85,8 +87,7 @@ namespace App12
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMiddleware(typeof(UpdateTicketMiddleware));
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
