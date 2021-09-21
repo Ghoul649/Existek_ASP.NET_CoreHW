@@ -71,7 +71,10 @@ namespace App12.Controllers
                 return ValidationProblem();
             var user = await UserManager.FindByNameAsync(operation.UserName);
             if (user is null)
+            {
                 ModelState.AddModelError("UserName", "Unknown user");
+                return ValidationProblem();
+            }
 
             IdentityResult res;
             if (operation.Operation == UserRoleOperation.Set)

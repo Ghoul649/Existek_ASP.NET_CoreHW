@@ -21,8 +21,11 @@ namespace App12
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<AppIdentityDbContext>>();
                 var rm = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+                await AppIdentityDbContext.CheckBaseRoles(rm, logger);
+                var um = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+                await dbContext.FillEmptyDataBase(um, rm, logger);
 
-                AppIdentityDbContext.CheckBaseRoles(rm, logger).GetAwaiter().GetResult();
             }
             host.Run();
         }

@@ -33,11 +33,13 @@ namespace App12
         {
             var str = Configuration.GetConnectionString("AppDB");
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
+            services.AddAuthorizationHandlers();
 
             services.AddDbContext<AppIdentityDbContext>(options => 
             {
                 options.UseSqlServer(str);
             });
+
             services.AddIdentity<User, IdentityRole<int>>(options =>
             {
                 options.Password = new PasswordOptions()

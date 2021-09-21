@@ -9,7 +9,7 @@ namespace App12.DTO
     public class RegisterModel
     {
         [Required]
-        [RegularExpression("[A-Za-z1-9_]{3,32}")]
+        [RegularExpression("[A-Za-z0-9_]{3,32}")]
         public string UserName { get; set; }
         [Required]
         [MinLength(6)]
